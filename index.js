@@ -1,8 +1,13 @@
+require("dotenv").config();
+// module imports
 const 
   express = require("express"),
-  bodyParser = require("body-parser"),
+  bodyParser = require("body-parser");
+// local imports
+const
   db = require('./config/database'),
   { createTables, seedDB } = require('./utils/db-seeder');
+
 
 const 
   app  = express(),
@@ -16,11 +21,11 @@ app.use( bodyParser.json({ limit: '5mb' }) );
 db.connectDB();
 
 // Create tables
-createTables()
+process.env.INIT_TABLES === 'true' && createTables()
   .then( results => {
     console.log(`${results.length} tables created!`);
     // Seed the DB
-    // seedDB();
+    process.env.SEED_DB === 'true' && seedDB();
   })
 
 

@@ -1,8 +1,7 @@
 // modules imports
 const { Pool }   = require("pg");
 // local definitions
-const dbUrl = process.env.DB_URL 
-  || "postgres://pipboy2300:admin123@localhost:5432/twonneDB";
+const dbUrl = process.env.DB_URL;
 
 function Database() {
   // private variable
