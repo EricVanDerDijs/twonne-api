@@ -1,0 +1,29 @@
+{
+  "name": "twonne-api",
+  "version": "1.0.0",
+  "description": "twitter clone api (personal project)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricVanDerDijs/twonne-api.git"
+  },
+  "author": "Eric Van Der Dijs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EricVanDerDijs/twonne-api/issues"
+  },
+  "homepage": "https://github.com/EricVanDerDijs/twonne-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "pg": "^7.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
