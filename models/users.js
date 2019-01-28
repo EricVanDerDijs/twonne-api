@@ -21,6 +21,10 @@ const Users = new Schema('users', {
     type: 'TEXT',
     constraint: 'NOT NULL'
   },
+  role: {
+    type: 'role',
+    constraint: "NOT NULL DEFAULT 'user'"
+  },
   created_at: {
     type: 'TIMESTAMPTZ',
     constraint: 'NOT NULL DEFAULT NOW()'

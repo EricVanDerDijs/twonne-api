@@ -16,16 +16,33 @@ const fakeUsers = [
 
 module.exports.createTables = async() => {
 
+  // add role enum type
+  try {
+    await db.query( "CREATE TYPE role AS ENUM ('user','superuser','admin','superadmin');" );
+    console.log('role type added !!');
+
+  } catch (error) {
+    if(error.routine === 'DefineEnum'){
+      console.log('role type already exists');
+    } else {
+      throw error
+    }
+  }
+
+  // order of creation matters due to references
   const models = [
     Users,
     Twonnes,
-    Likes,
-    Followers
+    Followers,
+    Likes
   ]
 
-  let results = models.map( async model => {
-    return await db.query( model.SQLTableCreate )
-  })
+  let results = [];
+
+  for (const model of models){
+    let result = await db.query( model.SQLTableCreate );
+    results.push(result)
+  }
 
   results = await Promise.all(results)
 

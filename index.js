@@ -35,8 +35,11 @@ process.env.INIT_TABLES === 'true' && createTables()
 app.use("/users", 
 	require("./routes/users"));
 
-  app.use("/twonnes", 
-	require("./routes/twonnes"));
+app.use("/twonnes", 
+  require("./routes/twonnes"));
+  
+app.use("/", 
+	require("./routes/authentication"));
 
 // ------ Server Start -----
 app.listen(port, function(req, res){
