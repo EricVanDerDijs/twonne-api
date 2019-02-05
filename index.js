@@ -6,7 +6,8 @@ const
 // local imports
 const
   db = require('./config/database'),
-  { createTables, seedDB } = require('./utils/db-seeder');
+  { createTables, seedDB } = require('./utils/db-seeder'),
+  errorHandler = require('./middleware/error-handling');
 
 
 const 
@@ -39,9 +40,14 @@ app.use("/twonnes",
   require("./routes/twonnes"));
   
 app.use("/", 
-	require("./routes/authentication"));
+  require("./routes/authentication"));
 
-// ------ Server Start -----
-app.listen(port, function(req, res){
-	console.log("magic happens at: " + port);
-});
+app.get("/", (req,res) => { res.send("Welcome to twonne API") });
+
+// Error handler
+app.use(errorHandler);
+  
+  // ------ Server Start -----
+  app.listen(port, function(req, res){
+    console.log("magic happens at: " + port);
+  });
