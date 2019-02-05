@@ -8,22 +8,28 @@ const {
   update,
   destroy
   } = require('../controllers/twonnes');
+const { 
+  tokenCheck,
+  denyUser,
+  denySuperUser,
+  denyAdmin
+} = require('../middleware/auth');
 // local definitions
 const router = Router();
 
 // Index
-router.get('/', index);
+router.get('/', tokenCheck, denyUser, denySuperUser, denyAdmin, index);
 
 // Create
-router.post('/', create);
+router.post('/', tokenCheck, denyUser, denySuperUser, denyAdmin, create);
 
 // Read
-router.get('/:id', read);
+router.get('/:id', tokenCheck, denyUser, denySuperUser, denyAdmin, read);
 
 // Update
-router.patch('/:id', update);
+router.patch('/:id', tokenCheck, denyUser, denySuperUser, denyAdmin, update);
 
 // Delete
-router.delete('/:id', destroy);
+router.delete('/:id', tokenCheck, denyUser, denySuperUser, denyAdmin, destroy);
 
 module.exports = router;
