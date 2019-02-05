@@ -3,15 +3,15 @@ const
   { Users } = require("../models/users"),
   { Twonnes } = require("../models/twonnes"),
   { Likes } = require("../models/likes"),
-  { Followers } = require("../models/followes");
+  { Followers } = require("../models/followers");
 
 const fakeUsers = [
-  { email: 'user_1@mail.com', username: 'user_1', password: '123456'  },
-  { email: 'user_2@mail.com', username: 'user_2', password: '123456'  },
-  { email: 'user_3@mail.com', username: 'user_3', password: '123456'  },
-  { email: 'user_4@mail.com', username: 'user_4', password: '123456'  },
-  { email: 'user_5@mail.com', username: 'user_5', password: '123456'  },
-  { email: 'user_6@mail.com', username: 'user_6', password: '123456'  }
+  { 
+    email: 'superadmin@mail.com', 
+    username: 'superadmin', 
+    role: 'superadmin',
+    password: '$2b$05$rH7SGXrnA22FOwtnIu4Z5enEyDvnadAu65sQ/QOelGGbVDJ87Z37i'
+  }
 ]
 
 module.exports.createTables = async() => {
