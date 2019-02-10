@@ -6,7 +6,8 @@ const {
   create,
   read,
   update,
-  destroy
+  destroy,
+  userFollowsTwonnes
   } = require('../controllers/users');
 const { 
   tokenCheck,
@@ -15,21 +16,27 @@ const {
   denyAdmin
 } = require('../middleware/auth');
 // local definitions
-const router = Router({ mergeParams: true });
+const router = Router();
 
-// Index
-router.get('/', tokenCheck, denyUser, denySuperUser, denyAdmin, index);
+router.route('/:id/follows')
+  .get(tokenCheck, userFollows);
 
-// Create
-router.post('/', tokenCheck, denyUser, denySuperUser, denyAdmin, create);
+router.route('/:id/followers')
+  .get(tokenCheck, userFollowers);
 
-// Read
-router.get('/:id', tokenCheck, denyUser, denySuperUser, denyAdmin, read);
+router.route('/:id')
+  // Read
+  .get(tokenCheck, denyUser, denySuperUser, denyAdmin, read)
+  // Update
+  .patch(tokenCheck, denyUser, denySuperUser, denyAdmin, update)
+  // Delete
+  .delete(tokenCheck, denyUser, denySuperUser, denyAdmin, destroy);
 
-// Update
-router.patch('/:id', tokenCheck, denyUser, denySuperUser, denyAdmin, update);
+router.route('/')
+  // Index
+  .get(tokenCheck, denyUser, denySuperUser, denyAdmin, index)
+  // Create
+  .post(tokenCheck, denyUser, denySuperUser, denyAdmin, create);
 
-// Delete
-router.delete('/:id', tokenCheck, denyUser, denySuperUser, denyAdmin, destroy);
 
 module.exports = router;
