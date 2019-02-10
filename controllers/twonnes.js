@@ -3,7 +3,7 @@ const { Twonnes } = require('../models/twonnes');
 
 module.exports.index = async (req, res, next) => {
   try {
-    let twonnes = await Twonnes.findAll();
+    let twonnes = await Twonnes.find();
     res.status(200).json( twonnes.rows );
   } catch (error) {
     next(error);
@@ -49,5 +49,32 @@ module.exports.destroy = async (req, res, next) => {
     res.status(200).json( deletedTwonne );
   } catch (error) {
     next(error);
+  }
+}
+
+
+
+module.exports.followsTwonnes = async (req, res, next) => {
+  try {
+    if( req.params.user_id === res.locals.payload.id ){
+      // get required data for db request
+      const GET_FOLLOWS_ID = followersQ.GET_FOLLOWS_ID({user_id: '$1'});
+      const orderBy = req.query.sort ? 
+        orderBy_toSQL(req.query.sort) : ['created_at DESC'];
+
+      let followsTwonnes = 
+        await Twonnes.find({
+          select: ['*'],
+          where: [`author IN (${GET_FOLLOWS_ID})`],
+          orderBy: orderBy
+        }, [req.params.user_id]);
+
+      res.status(200).json({ twonnes: followsTwonnes.rows });
+
+    } else {
+      throw new Error('USER_NOT_ALLOWED');
+    }
+  } catch (error) {
+    next(error); // pass the error to error handler
   }
 }
