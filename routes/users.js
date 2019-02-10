@@ -7,8 +7,8 @@ const {
   read,
   update,
   destroy,
-  userFollows,
-  userFollowers
+  getFollows,
+  getFollowers
   } = require('../controllers/users');
 const { 
   tokenCheck,
@@ -20,10 +20,10 @@ const {
 const router = Router();
 
 router.route('/:id/follows')
-  .get(tokenCheck, userFollows);
+  .get(tokenCheck, getFollows);
 
 router.route('/:id/followers')
-  .get(tokenCheck, userFollowers);
+  .get(tokenCheck, getFollowers);
 
 router.route('/:id')
   // Read

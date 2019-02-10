@@ -54,7 +54,7 @@ module.exports.destroy = async (req, res, next) => {
   }
 }
 
-module.exports.userFollows = async (req, res, next) => {
+module.exports.getFollows = async (req, res, next) => {
   try {
     if( req.params.id === res.locals.payload.id ){
       // get required data for db request
@@ -79,7 +79,7 @@ module.exports.userFollows = async (req, res, next) => {
   }
 }
 
-module.exports.userFollowers = async (req, res, next) => {
+module.exports.getFollowers = async (req, res, next) => {
   try {
     if( req.params.id === res.locals.payload.id ){
       // get required data for db request
@@ -101,5 +101,6 @@ module.exports.userFollowers = async (req, res, next) => {
     }
   } catch (error) {
     next(error); // pass the error to error handler
-  }z
+  }
 }
+
