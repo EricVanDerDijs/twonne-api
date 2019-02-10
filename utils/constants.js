@@ -28,6 +28,11 @@ module.exports.e = {
     httpCode: 403,
     code: '0006',
     description: 'Your user is not allowed to access this resource.',
+  },
+  "USER_NOT_ALLOWED": {
+    httpCode: 403,
+    code: '0007',
+    description: 'Your user is not allowed to access this resource.',
   }
 };
 
