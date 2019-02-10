@@ -1,4 +1,5 @@
 const db = require("../config/database");
+const { toSingleLine } = require('../utils/general');
 
 generateSQLTableCreate = (tableName, model) => {
   let columnDeclarations = [];
@@ -74,8 +75,21 @@ class Schema{
       [id] )
   }
 
-  findAll() {
-    return db.query(`SELECT * FROM ${this.tableName}`)
+  find(options = {}, params = []) {
+    const select = options.select ? options.select.join(', ') : '*';
+    const where = options.where ? options.where.join(', ') : '';
+    const groupBy = options.groupBy ? options.groupBy.join(', ') : '';
+    const orderBy = options.orderBy ? options.orderBy.join(', ') : '';
+
+    const query = toSingleLine`
+      SELECT ${select}
+      FROM ${this.tableName}
+      ${where && `WHERE ${where}`}
+      ${groupBy && `GROUP BY ${groupBy}`}
+      ${orderBy && `ORDER BY ${orderBy}`};
+    `
+    return db.query( query, params )
+
   }
 
   // Update
