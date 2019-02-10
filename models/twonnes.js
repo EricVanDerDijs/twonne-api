@@ -15,7 +15,7 @@ const Twonnes = new Schema('twonnes', {
   },
   author: {
     type: 'INT',
-    constraint: 'NOT NULL'
+    constraint: `REFERENCES ${Users.tableName} ON DELETE CASCADE`
   },
   created_at: {
     type: 'TIMESTAMPTZ',
