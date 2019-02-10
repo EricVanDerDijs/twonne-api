@@ -6,7 +6,8 @@ const {
   create,
   read,
   update,
-  destroy
+  destroy,
+  followsTwonnes
   } = require('../controllers/twonnes');
 const { 
   tokenCheck,
@@ -17,19 +18,21 @@ const {
 // local definitions
 const router = Router();
 
-// Index
-router.get('/', tokenCheck, denyUser, denySuperUser, denyAdmin, index);
+router.route('/follows/:user_id')
+  .get(tokenCheck, followsTwonnes);
 
-// Create
-router.post('/', tokenCheck, denyUser, denySuperUser, denyAdmin, create);
+router.route('/:id')
+  // Read
+  .get(tokenCheck, denyUser, denySuperUser, denyAdmin, read)
+  // Update
+  .patch(tokenCheck, denyUser, denySuperUser, denyAdmin, update)
+  // Delete
+  .delete(tokenCheck, denyUser, denySuperUser, denyAdmin, destroy);
 
-// Read
-router.get('/:id', tokenCheck, denyUser, denySuperUser, denyAdmin, read);
-
-// Update
-router.patch('/:id', tokenCheck, denyUser, denySuperUser, denyAdmin, update);
-
-// Delete
-router.delete('/:id', tokenCheck, denyUser, denySuperUser, denyAdmin, destroy);
+router.route('/')
+  // Index
+  .get(tokenCheck, denyUser, denySuperUser, denyAdmin, index)
+  // Create
+  .post(tokenCheck, denyUser, denySuperUser, denyAdmin, create);
 
 module.exports = router;
