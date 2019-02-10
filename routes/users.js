@@ -7,7 +7,8 @@ const {
   read,
   update,
   destroy,
-  userFollowsTwonnes
+  userFollows,
+  userFollowers
   } = require('../controllers/users');
 const { 
   tokenCheck,
