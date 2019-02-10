@@ -65,7 +65,7 @@ module.exports.getFollows = async (req, res, next) => {
       let userFollows = 
         await Users.find({
           select: ['id', 'username', 'email'],
-          where: `id IN (${GET_FOLLOWS_ID})`,
+          where: [`id IN (${GET_FOLLOWS_ID})`],
           orderBy: orderBy
         }, [req.params.id]);
 
@@ -90,7 +90,7 @@ module.exports.getFollowers = async (req, res, next) => {
       let userFollowers = 
         await Users.find({
           select: ['id', 'username', 'email'],
-          where: `id IN (${GET_FOLLOWERS_ID})`,
+          where: [`id IN (${GET_FOLLOWERS_ID})`],
           orderBy: orderBy
         }, [req.params.id]);
 
