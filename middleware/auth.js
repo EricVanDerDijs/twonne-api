@@ -5,7 +5,7 @@ module.exports.tokenCheck =  function(req, res, next) {
   const token = req.get('x-access-token');
 
   if (!token){
-    throw new Error("TOKEN_MISSING")
+    next( new Error("TOKEN_MISSING") );
 
   } else {
     try {
