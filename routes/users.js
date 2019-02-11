@@ -19,6 +19,9 @@ const {
 // local definitions
 const router = Router();
 
+router.route('/:id/follow')
+  .post(tokenCheck, toggleFollow);
+
 router.route('/:id/follows')
   .get(tokenCheck, getFollows);
 
