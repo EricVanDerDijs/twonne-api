@@ -1,7 +1,9 @@
 //local imports
 const { Users } = require('../models/users');
+const { Followers } = require('../models/followers');
 const followersQ = require('../queries/followers');
-const { orderBy_toSQL } = require('../utils/general');
+const db = require('../config/database')
+const { orderBy_toSQL, toSingleLine } = require('../utils/general');
 
 module.exports.index = async (req, res, next) => {
   try {
@@ -104,3 +106,35 @@ module.exports.getFollowers = async (req, res, next) => {
   }
 }
 
+module.exports.toggleFollow = async (req, res, next) => {
+  try {
+    const user_id = res.locals.payload.id;
+    const follows = req.params.id;
+    let follow = 
+      await Followers.find({
+        select: ['*'],
+        where: ['user_id = $1 AND follows = $2'],
+      }, [user_id, follows]);
+    
+    let response = {};
+
+    if(!follow.rows.lenght){
+      followerEntry = await Followers.create({ user_id, follows });
+      response.follow = followerEntry.rows[0];
+      response.isFollowing = true;
+
+    } else {
+      followerEntry = await db.query(toSingleLine`
+          DELETE FROM ${Followers.tableName} 
+          WHERE user_id = $1 AND follows = $2
+          RETURNING *`);
+      response.follow = followerEntry.rows[0];
+      response.isFollowing = false;
+    }
+
+    res.status(200).json( response );
+       
+  } catch (error) {
+    next(error); // pass the error to error handler
+  }
+}
