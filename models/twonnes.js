@@ -1,4 +1,5 @@
-const { Schema } = require("../utils/orm")
+const { Schema } = require("../utils/orm");
+const { Users } = require("./users");
 
 // ======================|| IMPORTANT ||======================
 // This model *MUST* be updated if the twonnes TABLE is ALTER-ed

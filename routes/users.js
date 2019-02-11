@@ -8,7 +8,8 @@ const {
   update,
   destroy,
   getFollows,
-  getFollowers
+  getFollowers,
+  toggleFollow
   } = require('../controllers/users');
 const { 
   tokenCheck,
@@ -30,7 +31,7 @@ router.route('/:id/followers')
 
 router.route('/:id')
   // Read
-  .get(tokenCheck, denyUser, denySuperUser, denyAdmin, read)
+  .get(tokenCheck, read)
   // Update
   .patch(tokenCheck, denyUser, denySuperUser, denyAdmin, update)
   // Delete

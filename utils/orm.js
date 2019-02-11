@@ -81,14 +81,28 @@ class Schema{
     const groupBy = options.groupBy ? options.groupBy.join(', ') : '';
     const orderBy = options.orderBy ? options.orderBy.join(', ') : '';
 
-    const query = toSingleLine`
+    // console.log(select);
+    // console.log(where);
+    // console.log(groupBy);
+    // console.log(orderBy);
+    
+
+    let query = toSingleLine`
       SELECT ${select}
       FROM ${this.tableName}
-      ${where && `WHERE ${where}`}
-      ${groupBy && `GROUP BY ${groupBy}`}
-      ${orderBy && `ORDER BY ${orderBy}`};
     `
-    return db.query( query, params )
+    
+    
+    // const query = toSingleLine`
+    //   SELECT ${select}
+    //   FROM ${this.tableName}
+    //   ${where && `WHERE ${where}`}
+    //   ${groupBy && `GROUP BY ${groupBy}`}
+    //   ${orderBy && `ORDER BY ${orderBy}`};
+    // `
+    console.log(query);
+    
+    // return db.query( query, params )
 
   }
 

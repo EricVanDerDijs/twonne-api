@@ -8,6 +8,8 @@ const { orderBy_toSQL, toSingleLine } = require('../utils/general');
 module.exports.index = async (req, res, next) => {
   try {
     let users = await Users.find();
+    console.log(users);
+    
     res.status(200).json( users.rows )
   } catch (error) {
     next(error);
@@ -28,6 +30,8 @@ module.exports.read = async (req, res, next) => {
     let id = req.params.id;
     let user = await Users.findById( id );
     user = user.rows[0];
+    // delete user.role;
+    // delete user.password;
     res.status(200).json( user )
   } catch (error) {
     next(error);

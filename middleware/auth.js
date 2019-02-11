@@ -10,6 +10,7 @@ module.exports.tokenCheck =  function(req, res, next) {
   } else {
     try {
       res.locals.payload = jwt.verify(token, process.env.SECRET);
+      next();
     } catch (error) {
       next(new Error("INVALID_TOKEN"));
     }

@@ -23,7 +23,7 @@ router.route('/follows/:user_id')
 
 router.route('/:id')
   // Read
-  .get(tokenCheck, denyUser, denySuperUser, denyAdmin, read)
+  .get(tokenCheck, read)
   // Update
   .patch(tokenCheck, denyUser, denySuperUser, denyAdmin, update)
   // Delete

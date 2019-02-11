@@ -1,12 +1,14 @@
 const jwt = require("jsonwebtoken");
 
 module.exports.toSingleLine = (string_arr) => {
+  // join multiline string into single line
+  let single_line_string = string_arr.join(' ');
   // remove carriage returns and new lines
-  let single_line_string = string_arr[0].replace(/(?:\r\n|\n|\r)/gm, '');
+  single_line_string = single_line_string.replace(/(?:\r\n|\n|\r)/gm, '');
   // remove identations and extra spaces
-  single_line_string = string_arr[0].replace(/(\s{2,}|\t)/g, ' ');
+  single_line_string = single_line_string.replace(/(\s{2,}|\t)/g, ' ');
   // and trim the result
-  return single_line_string.trim();
+  return single_line_string.trim();;
 }
 
 // set defined placeholders
