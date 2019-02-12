@@ -24,6 +24,8 @@ const Followers = new Schema('followers', {
     type: 'TIMESTAMPTZ',
     constraint: 'NOT NULL DEFAULT NOW()'
   }
-})
+}, [
+  'PRIMARY KEY (user_id, follows)'
+])
 
 module.exports.Followers =  Followers;
