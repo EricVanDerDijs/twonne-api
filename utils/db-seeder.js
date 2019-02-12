@@ -11,7 +11,31 @@ const fakeUsers = [
     username: 'superadmin', 
     role: 'superadmin',
     password: '$2b$05$rH7SGXrnA22FOwtnIu4Z5enEyDvnadAu65sQ/QOelGGbVDJ87Z37i'
-  }
+  },
+  { 
+    email: 'user1@mail.com', 
+    username: 'user1', 
+    role: 'user',
+    password: '$2b$05$rH7SGXrnA22FOwtnIu4Z5enEyDvnadAu65sQ/QOelGGbVDJ87Z37i'
+  },
+  { 
+    email: 'user2@mail.com', 
+    username: 'user2', 
+    role: 'user',
+    password: '$2b$05$rH7SGXrnA22FOwtnIu4Z5enEyDvnadAu65sQ/QOelGGbVDJ87Z37i'
+  },
+  { 
+    email: 'user3@mail.com', 
+    username: 'user3', 
+    role: 'user',
+    password: '$2b$05$rH7SGXrnA22FOwtnIu4Z5enEyDvnadAu65sQ/QOelGGbVDJ87Z37i'
+  },
+  { 
+    email: 'user4@mail.com', 
+    username: 'user4', 
+    role: 'user',
+    password: '$2b$05$rH7SGXrnA22FOwtnIu4Z5enEyDvnadAu65sQ/QOelGGbVDJ87Z37i'
+  },
 ]
 
 module.exports.createTables = async() => {
