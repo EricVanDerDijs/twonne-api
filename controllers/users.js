@@ -8,8 +8,6 @@ const { orderBy_toSQL, toSingleLine } = require('../utils/general');
 module.exports.index = async (req, res, next) => {
   try {
     let users = await Users.find();
-    console.log(users);
-    
     res.status(200).json( users.rows )
   } catch (error) {
     next(error);
@@ -30,8 +28,8 @@ module.exports.read = async (req, res, next) => {
     let id = req.params.id;
     let user = await Users.findById( id );
     user = user.rows[0];
-    // delete user.role;
-    // delete user.password;
+    delete user.role;
+    delete user.password;
     res.status(200).json( user )
   } catch (error) {
     next(error);
@@ -62,7 +60,7 @@ module.exports.destroy = async (req, res, next) => {
 
 module.exports.getFollows = async (req, res, next) => {
   try {
-    if( req.params.id === res.locals.payload.id ){
+    if( +req.params.id === res.locals.payload.id ){
       // get required data for db request
       const GET_FOLLOWS_ID = followersQ.GET_FOLLOWS_ID({user_id: '$1'});
       const orderBy = req.query.sort ? 
@@ -87,7 +85,7 @@ module.exports.getFollows = async (req, res, next) => {
 
 module.exports.getFollowers = async (req, res, next) => {
   try {
-    if( req.params.id === res.locals.payload.id ){
+    if( +req.params.id === res.locals.payload.id ){
       // get required data for db request
       const GET_FOLLOWERS_ID = followersQ.GET_FOLLOWERS_ID({follows: '$1'});
       const orderBy = req.query.sort ? 
@@ -113,7 +111,10 @@ module.exports.getFollowers = async (req, res, next) => {
 module.exports.toggleFollow = async (req, res, next) => {
   try {
     const user_id = res.locals.payload.id;
-    const follows = req.params.id;
+    const follows = +req.params.id;
+    if(user_id === follows){
+      throw new Error('NO_SELF_FOLLOW');
+    }
     let follow = 
       await Followers.find({
         select: ['*'],
@@ -121,8 +122,8 @@ module.exports.toggleFollow = async (req, res, next) => {
       }, [user_id, follows]);
     
     let response = {};
-
-    if(!follow.rows.lenght){
+      
+    if(!follow.rows.length){
       followerEntry = await Followers.create({ user_id, follows });
       response.follow = followerEntry.rows[0];
       response.isFollowing = true;
@@ -131,7 +132,7 @@ module.exports.toggleFollow = async (req, res, next) => {
       followerEntry = await db.query(toSingleLine`
           DELETE FROM ${Followers.tableName} 
           WHERE user_id = $1 AND follows = $2
-          RETURNING *`);
+          RETURNING *`,[user_id, follows]);
       response.follow = followerEntry.rows[0];
       response.isFollowing = false;
     }

@@ -20,14 +20,18 @@ const {
 // local definitions
 const router = Router();
 
-router.route('/:id/follow')
-  .post(tokenCheck, toggleFollow);
-
-router.route('/:id/follows')
-  .get(tokenCheck, getFollows);
 
 router.route('/:id/followers')
+  // get user followers
   .get(tokenCheck, getFollowers);
+
+router.route('/:id/follows')
+  // get user follows
+  .get(tokenCheck, getFollows);
+
+router.route('/:id/follow')
+  // follow/unfollow
+  .post(tokenCheck, toggleFollow);
 
 router.route('/:id')
   // Read
