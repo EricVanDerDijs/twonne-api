@@ -33,6 +33,11 @@ module.exports.e = {
     httpCode: 403,
     code: '0007',
     description: 'Your user is not allowed to access this resource.',
+  },
+  "NO_SELF_FOLLOW": {
+    httpCode: 400,
+    code: '0008',
+    description: 'A user is not able to follow itself',
   }
 };
 
