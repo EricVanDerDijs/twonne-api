@@ -14,7 +14,7 @@ function Database() {
   this.connectDB = () => {
     _conectionsPool = new Pool({
       connectionString: dbUrl,
-      max: 5
+      max: 4
     });
   }
 
