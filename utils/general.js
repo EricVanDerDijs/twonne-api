@@ -22,7 +22,7 @@ module.exports.toSingleLine = (literals, ...values) => {
 // the final query needed for node-pg to prevent SQLinjection
 module.exports.setPlaceholders = (query, placeholders) => {
   for (let ph in placeholders){
-    query.replace(`${ph}_ph`, placeholders[ph])
+    query = query.replace(`${ph}_ph`, placeholders[ph]);
   }
 
   return query;
