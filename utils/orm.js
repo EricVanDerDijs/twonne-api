@@ -1,9 +1,12 @@
 const db = require("../config/database");
 const { toSingleLine } = require('../utils/general');
 
-generateSQLTableCreate = (tableName, model) => {
+generateSQLTableCreate = (tableName, model, constraints) => {
   let columnDeclarations = [];
-
+  let additionalConstraints = [];
+  if(constraints){
+    additionalConstraints = ', ' + constraints.join(', ');
+  }
   // map de model to generate all the columns declarations
   columnDeclarations =
     Object.keys(model).map( key => {
@@ -21,15 +24,18 @@ generateSQLTableCreate = (tableName, model) => {
       return `${key} ${type} ${constraint}`
     });
   
-  return  `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDeclarations.join(', ')});`
+  return  toSingleLine`
+    CREATE TABLE IF NOT EXISTS ${tableName} (
+      ${columnDeclarations.join(', ')}${additionalConstraints}
+      );`
   
 }
 
 class Schema{
-  constructor(tableName, model) {
+  constructor(tableName, model, constraints) {
     this.tableName = tableName;
     this.model = { ...model };
-    this.SQLTableCreate = generateSQLTableCreate(tableName, model);
+    this.SQLTableCreate = generateSQLTableCreate(tableName, model, constraints);
   }
 
   mapObjectToRowArrays(dataObject) {
@@ -81,28 +87,15 @@ class Schema{
     const groupBy = options.groupBy ? options.groupBy.join(', ') : '';
     const orderBy = options.orderBy ? options.orderBy.join(', ') : '';
 
-    // console.log(select);
-    // console.log(where);
-    // console.log(groupBy);
-    // console.log(orderBy);
-    
-
-    let query = toSingleLine`
+    const query = toSingleLine`
       SELECT ${select}
       FROM ${this.tableName}
+      ${where && `WHERE ${where}`}
+      ${groupBy && `GROUP BY ${groupBy}`}
+      ${orderBy && `ORDER BY ${orderBy}`};
     `
     
-    
-    // const query = toSingleLine`
-    //   SELECT ${select}
-    //   FROM ${this.tableName}
-    //   ${where && `WHERE ${where}`}
-    //   ${groupBy && `GROUP BY ${groupBy}`}
-    //   ${orderBy && `ORDER BY ${orderBy}`};
-    // `
-    console.log(query);
-    
-    // return db.query( query, params )
+    return db.query( query, params )
 
   }
 
