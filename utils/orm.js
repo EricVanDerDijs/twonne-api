@@ -107,9 +107,11 @@ class Schema{
       rowData
     } = this.mapObjectToRowArrays(dataObject);
 
-    return db.query(
-      `UPDATE ${this.tableName} SET (updated_at,${rowKeys}) = (NOW(),${rowPlaceholders}) WHERE id = $${rowKeys.length + 1} RETURNING *`,
-      [...rowData, id ])
+    return db.query( toSingleLine`
+      UPDATE ${this.tableName} 
+      SET (updated_at,${rowKeys}) = (NOW(),${rowPlaceholders}) 
+      WHERE id = $${rowKeys.length + 1} RETURNING *`,
+      [...rowData, id ]);
 
   }
 
