@@ -4,13 +4,13 @@ This is a very simple twitter clone (Twonne) REST API made in Node.js with postg
 
 The goal is to integrate in this project several technologies/techniques that I want to learn/try.
 
-This are:
-    - REST API Routing (for practice)
-    - PostgreSQL database
-    - Unit Testing
+These are:
+- REST API Routing (for practice)
+- PostgreSQL database
+- Unit Testing
 
 To do:
-    - Integrate unit testing
+- Integrate unit testing
 
 ## Docs:
 
