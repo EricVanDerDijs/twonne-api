@@ -9,7 +9,8 @@ const {
   destroy,
   getFollows,
   getFollowers,
-  toggleFollow
+  toggleFollow,
+  getUsersFromLikes
   } = require('../controllers/users');
 const { 
   tokenCheck,
@@ -20,6 +21,8 @@ const {
 // local definitions
 const router = Router();
 
+router.route('/likes/:twonne_id')
+  .get(getUsersFromLikes);
 
 router.route('/:id/followers')
   // get user followers

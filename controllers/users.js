@@ -2,6 +2,7 @@
 const { Users } = require('../models/users');
 const { Followers } = require('../models/followers');
 const followersQ = require('../queries/followers');
+const likesQ = require('../queries/likes');
 const db = require('../config/database')
 const { orderBy_toSQL, toSingleLine } = require('../utils/general');
 
@@ -139,6 +140,25 @@ module.exports.toggleFollow = async (req, res, next) => {
 
     res.status(200).json( response );
        
+  } catch (error) {
+    next(error); // pass the error to error handler
+  }
+}
+
+module.exports.getUsersFromLikes = async (req, res, next) => {
+  try {
+    const twonne_id = req.params.twonne_id;
+    const GET_USERS_ID_FROM_LIKES = 
+      likesQ.GET_USERS_ID_FROM_LIKES({ twonne_id: '$1' });
+    
+    const users =
+      await Users.find({
+        select: ['id', 'username', 'email'],
+        where: [`id IN (${GET_USERS_ID_FROM_LIKES})`],
+        orderBy: ['username']
+      }, [ twonne_id ]);
+    
+    res.json({ users: users.rows });
   } catch (error) {
     next(error); // pass the error to error handler
   }
