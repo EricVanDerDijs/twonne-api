@@ -18,21 +18,21 @@ const {
 // local definitions
 const router = Router();
 
-router.route('/follows/:user_id')
+router.route('/follows')
   .get(tokenCheck, followsTwonnes);
 
 router.route('/:id')
   // Read
   .get(tokenCheck, read)
   // Update
-  .patch(tokenCheck, denyUser, denySuperUser, denyAdmin, update)
+  .patch(tokenCheck, update)
   // Delete
-  .delete(tokenCheck, denyUser, denySuperUser, denyAdmin, destroy);
+  .delete(tokenCheck, destroy);
 
 router.route('/')
   // Index
   .get(tokenCheck, denyUser, denySuperUser, denyAdmin, index)
   // Create
-  .post(tokenCheck, denyUser, denySuperUser, denyAdmin, create);
+  .post(tokenCheck, create);
 
 module.exports = router;
