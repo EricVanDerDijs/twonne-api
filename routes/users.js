@@ -24,11 +24,11 @@ const router = Router();
 router.route('/likes/:twonne_id')
   .get(getUsersFromLikes);
 
-router.route('/:id/followers')
+router.route('/me/followers')
   // get user followers
   .get(tokenCheck, getFollowers);
 
-router.route('/:id/follows')
+router.route('/me/follows')
   // get user follows
   .get(tokenCheck, getFollows);
 
