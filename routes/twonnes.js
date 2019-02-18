@@ -7,7 +7,8 @@ const {
   read,
   update,
   destroy,
-  followsTwonnes
+  followsTwonnes,
+  toggleLike
   } = require('../controllers/twonnes');
 const { 
   tokenCheck,
@@ -17,6 +18,9 @@ const {
 } = require('../middleware/auth');
 // local definitions
 const router = Router();
+
+router.route('/:id/like')
+  .post(tokenCheck, toggleLike);
 
 router.route('/follows')
   .get(tokenCheck, followsTwonnes);

@@ -1,5 +1,6 @@
 //local imports
 const { Twonnes } = require('../models/twonnes');
+const { Likes } = require('../models/likes');
 const followersQ = require('../queries/followers');
 const twonnesQ = require('../queries/twonnes');
 const { orderBy_toSQL } = require('../utils/general');
@@ -50,14 +51,14 @@ module.exports.update = async (req, res, next) => {
     }
     const newTwonneData = { content: req.body.content };
     // get data from token
-    const { role: userRole, id: userId } = res.locals.payload;
+    const { role: user_role, id: user_id } = res.locals.payload;
     // Superadmin and authors are able to edit twonnes
-    if(userRole !== 'superadmin'){
+    if(user_role !== 'superadmin'){
       let twonneToUpdate = 
         await Twonnes.findById( req.params.id );
       twonneToUpdate = twonneToUpdate.rows[0];
 
-      if(twonneToUpdate.author === userId){
+      if(twonneToUpdate.author === user_id){
         let updatedTwonne = 
           await Twonnes.updateById( req.params.id, newTwonneData );
         updatedTwonne = updatedTwonne.rows[0];
@@ -105,8 +106,6 @@ module.exports.destroy = async (req, res, next) => {
   }
 }
 
-
-
 module.exports.followsTwonnes = async (req, res, next) => {
   try {
     // get required data for db query
@@ -147,6 +146,40 @@ module.exports.followsTwonnes = async (req, res, next) => {
       await db.query(userFollowsQuery, [user_id])
 
     res.status(200).json({ twonnes: followsTwonnes.rows });
+  } catch (error) {
+    next(error); // pass the error to error handler
+  }
+}
+
+module.exports.toggleLike = async (req, res, next) => {
+  try {
+    const user_id = res.locals.payload.id;
+    const twonne_id = +req.params.id;
+
+    let like = 
+      await Likes.find({
+        select: ['*'],
+        where: ['user_id = $1 AND twonne_id = $2'],
+      }, [user_id, twonne_id]);
+    
+    let response = {};
+      
+    if(!like.rows.length){
+      let likeEntry = await Likes.create({ user_id, twonne_id });
+      response.like_entry = likeEntry.rows[0];
+      response.has_like = true;
+
+    } else {
+      let likeEntry = await db.query(toSingleLine`
+          DELETE FROM ${Likes.tableName} 
+          WHERE user_id = $1 AND twonne_id = $2
+          RETURNING *`,[user_id, twonne_id]);
+      response.like_entry = likeEntry.rows[0];
+      response.has_like = false;
+    }
+
+    res.status(200).json( response );
+       
   } catch (error) {
     next(error); // pass the error to error handler
   }
