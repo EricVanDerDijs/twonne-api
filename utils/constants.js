@@ -38,6 +38,11 @@ module.exports.e = {
     httpCode: 400,
     code: '0008',
     description: 'A user is not able to follow itself',
+  },
+  "MISSING_REQUIRED_FIELDS": {
+    httpCode: 400,
+    code: '0009',
+    description: 'Your request is missing some required fields',
   }
 };
 
