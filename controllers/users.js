@@ -124,12 +124,12 @@ module.exports.toggleFollow = async (req, res, next) => {
     let response = {};
       
     if(!follow.rows.length){
-      followerEntry = await Followers.create({ user_id, follows });
+      let followerEntry = await Followers.create({ user_id, follows });
       response.follow = followerEntry.rows[0];
       response.isFollowing = true;
 
     } else {
-      followerEntry = await db.query(toSingleLine`
+      let followerEntry = await db.query(toSingleLine`
           DELETE FROM ${Followers.tableName} 
           WHERE user_id = $1 AND follows = $2
           RETURNING *`,[user_id, follows]);
