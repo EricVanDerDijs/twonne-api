@@ -1,7 +1,7 @@
 // modules imports
 const { Pool }   = require("pg");
 // local definitions
-const dbUrl = process.env.DB_URL;
+const dbUrl = process.env.DATABASE_URL;
 
 function Database() {
   // private variable
